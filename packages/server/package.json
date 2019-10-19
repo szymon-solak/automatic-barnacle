@@ -4,18 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc ./src/index.ts",
+    "build": "babel src -d build --extensions '.ts'",
+    "start": "nodemon -e ts -w src --exec \"NODE_ENV=development babel-node --extensions '.ts,.json' src/index.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/pg": "^7.11.2",
     "@typescript-eslint/eslint-plugin": "^2.4.0",
     "@typescript-eslint/parser": "^2.4.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.4",
     "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "pg": "^7.12.1"
   }
 }
