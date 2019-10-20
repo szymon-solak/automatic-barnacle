@@ -1,18 +1,22 @@
 import { ConsoleLogger } from './logger'
-import { connect } from './db'
+import { PoolDatabaseConnection } from './db'
 
 const logger = new ConsoleLogger()
-const dbPool = connect({
+const dbPool = new PoolDatabaseConnection(
   logger,
-})
+)
 
 
 export const run = async () => {
-  const now = await dbPool.query('select now()')
-  console.log(dbPool)
+  dbPool.connect()
 
-  logger.info(now)
+  const now = await dbPool.query<{ now: string }>('select now()')
 
-  await dbPool.end()
+  now.map(n => {
+    console.log(n)
+    return n
+  })
+
+  await dbPool.disconnect()
 }
 

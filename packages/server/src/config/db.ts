@@ -6,7 +6,7 @@ import { Option } from '../types/option'
 export interface DatabaseConnection {
   connect: () => void
   disconnect: () => void
-  query: <TResult>(query: string, params: string[]) => Promise<Option<TResult[]>>
+  query: <TResult>(query: string, params?: string[]) => Promise<Option<TResult[]>>
 }
 
 export class PoolDatabaseConnection implements DatabaseConnection {
@@ -32,9 +32,11 @@ export class PoolDatabaseConnection implements DatabaseConnection {
     return this.pool.end()
   }
 
-  public async query <TResult>(query, params) {
+  public async query <TResult>(query: string, params: string[] = []): Promise<Option<TResult[]>> {
     if (!this.pool) {
-      this.logger.error('[DB]: Query error - no open pool. Make sure you are connected to the db beofre trying to run `query`')
+      this.logger.error(
+        '[DB]: Query error - no open pool. Make sure you are connected to the database before trying to run `query`'
+      )
       return Option.of<TResult[]>(null)
     }
 
