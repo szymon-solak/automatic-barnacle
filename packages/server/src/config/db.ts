@@ -1,11 +1,12 @@
 import { Pool } from 'pg'
 
 import { Logger } from './logger'
+import { Option } from '../types/option'
 
 export interface DatabaseConnection {
   connect: () => void
   disconnect: () => void
-  query: <TResult>(query: string, params: string[]) => Promise<TResult[]>
+  query: <TResult>(query: string, params: string[]) => Promise<Option<TResult[]>>
 }
 
 export class PoolDatabaseConnection implements DatabaseConnection {
@@ -34,12 +35,12 @@ export class PoolDatabaseConnection implements DatabaseConnection {
   public async query <TResult>(query, params) {
     if (!this.pool) {
       this.logger.error('[DB]: Query error - no open pool. Make sure you are connected to the db beofre trying to run `query`')
-      return
+      return Option.of<TResult[]>(null)
     }
 
     const result = await this.pool.query<TResult>(query, params)
 
-    return result.rows
+    return Option.of(result.rows)
   }
 }
 

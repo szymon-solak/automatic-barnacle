@@ -10,9 +10,31 @@ export abstract class Option<T> {
 }
 
 export class Some<T> extends Option<T> {
+  constructor (
+    private readonly value: T,
+  ) {
+    super()
+  }
 
+  public getOrElse <TDefault>(def: TDefault) {
+    const isNullOrNaN =
+      this.value == null ||
+      (typeof this.value === 'number' && isNaN(this.value))
+
+    return isNullOrNaN ? def : this.value
+  }
+
+  public map <U>(transform: (value: T) => U): Some<U> {
+    return new Some(transform(this.value))
+  }
 }
 
 export class None<T> extends Option<T> {
+  public getOrElse <TDefault>(def: TDefault) {
+    return def
+  }
 
+  public map <U>(_: (value: T) => U): None<U> {
+    return new None<U>()
+  }
 }
