@@ -2,10 +2,7 @@ import { ConsoleLogger } from './logger'
 import { PoolDatabaseConnection } from './db'
 
 const logger = new ConsoleLogger()
-const dbPool = new PoolDatabaseConnection(
-  logger,
-)
-
+const dbPool = new PoolDatabaseConnection(logger)
 
 export const run = async () => {
   dbPool.connect()
@@ -19,4 +16,3 @@ export const run = async () => {
 
   await dbPool.disconnect()
 }
-
