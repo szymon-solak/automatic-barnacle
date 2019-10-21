@@ -1,5 +1,5 @@
 import { Entity, Id } from './Entity'
-import { boundType } from '../../types/boundType'
+import { boundType } from '../../types/bound-type'
 import { Option } from '../../types/option'
 
 export type UserId = boundType<Id, 'UserId'>
