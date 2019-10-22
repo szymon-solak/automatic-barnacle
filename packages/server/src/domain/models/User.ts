@@ -1,10 +1,11 @@
-import { Entity, Id } from './Entity'
+import { Id, Entity } from './Entity'
 import { boundType } from '../../types/bound-type'
 import { Option } from '../../types/option'
 
 export type UserId = boundType<Id, 'UserId'>
 
-export class User extends Entity<UserId> {
-  public displayName: string
-  public photoUrl: Option<string>
+export interface User extends Entity<UserId> {
+  displayName: string
+  photoUrl: Option<string>
 }
+

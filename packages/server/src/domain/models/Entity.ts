@@ -1,5 +1,6 @@
 export type Id = number
 
-export class Entity<T extends string | number> {
-  public id: T
+export interface Entity<T extends string | number> {
+  id: T
 }
+
