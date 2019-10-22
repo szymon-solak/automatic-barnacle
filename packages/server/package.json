@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "style:test": "prettier --check 'src/**/*.ts'",
     "style:fix": "prettier --write 'src/**/*.ts'",
-    "lint": "eslint 'src/**/*.ts'"
+    "lint": "eslint 'src/**/*.ts'",
+    "migrate": "node ./migrate"
   },
   "keywords": [],
   "author": "",
@@ -24,10 +25,12 @@
     "@types/pg": "^7.11.2",
     "@typescript-eslint/eslint-plugin": "^2.4.0",
     "@typescript-eslint/parser": "^2.4.0",
+    "chalk": "^2.4.2",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "nodemon": "^1.19.4",
+    "postgrator": "^3.10.2",
     "prettier": "^1.18.2",
     "typescript": "^3.6.4"
   },

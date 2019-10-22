@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  displayName VARCHAR(255) NOT NULL,
+  photoUrl VARCHAR(255)
+)
+
