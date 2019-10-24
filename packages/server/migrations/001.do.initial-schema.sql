@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
-  displayName VARCHAR(255) NOT NULL,
-  photoUrl VARCHAR(255)
+CREATE TABLE IF NOT EXISTS user (
+  user_id SERIAL PRIMARY KEY,
+  display_name VARCHAR(255) NOT NULL,
+  photo_url VARCHAR(255)
 )
 
