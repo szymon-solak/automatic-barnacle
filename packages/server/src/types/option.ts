@@ -5,7 +5,7 @@ export abstract class Option<T> {
     return value == null ? new None<T>() : new Some<T>(value)
   }
 
-  public abstract getOrElse<TDefault extends T>(def: TDefault): T | TDefault
+  public abstract getOrElse<TDefault>(def: TDefault): T | TDefault
   public abstract map<U>(transform: (value: T) => U): Option<U>
 }
 

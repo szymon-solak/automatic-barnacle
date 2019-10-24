@@ -8,7 +8,7 @@ export interface DatabaseConnection {
   disconnect: () => void
   query: <TResult>(
     query: string,
-    params?: string[]
+    params?: Array<string | number | undefined>
   ) => Promise<Option<TResult[]>>
 }
 
@@ -35,7 +35,7 @@ export class PoolDatabaseConnection implements DatabaseConnection {
 
   public async query<TResult>(
     query: string,
-    params: string[] = []
+    params: Array<string | number | undefined> = []
   ): Promise<Option<TResult[]>> {
     if (!this.pool) {
       this.logger.error(

@@ -1,5 +1,5 @@
 require('dotenv').config()
 
-import { run } from './config/server'
+import { run } from './server'
 
 run()
