@@ -8,4 +8,3 @@ export interface User extends Entity<UserId> {
   displayName: string
   photoUrl: Option<string>
 }
-
