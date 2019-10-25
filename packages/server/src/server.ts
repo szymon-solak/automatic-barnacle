@@ -8,7 +8,7 @@ const dbPool = new PoolDatabaseConnection(logger)
 export const run = async () => {
   dbPool.connect()
 
-  const userRepository = new UserRepository(dbPool)
+  const userRepository = new UserRepository(dbPool, logger)
 
   const newUser = await userRepository.create('John Doe')
 

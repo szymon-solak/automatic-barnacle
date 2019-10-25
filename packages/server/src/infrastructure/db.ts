@@ -1,7 +1,8 @@
 import { Pool } from 'pg'
 
 import { Logger } from './logger'
-import { Option } from '../types/option'
+import { Either } from '../types/either'
+import { QueryError, DatabaseError } from './errors'
 
 export interface DatabaseConnection {
   connect: () => void
@@ -9,7 +10,7 @@ export interface DatabaseConnection {
   query: <TResult>(
     query: string,
     params?: Array<string | number | undefined>
-  ) => Promise<Option<TResult[]>>
+  ) => Promise<Either<QueryError | DatabaseError, TResult[]>>
 }
 
 export class PoolDatabaseConnection implements DatabaseConnection {
@@ -30,22 +31,28 @@ export class PoolDatabaseConnection implements DatabaseConnection {
   public async disconnect() {
     if (this.pool === null) return
 
-    return this.pool.end()
+    await this.pool.end()
+
+    this.pool = null
   }
 
   public async query<TResult>(
     query: string,
     params: Array<string | number | undefined> = []
-  ): Promise<Option<TResult[]>> {
+  ): Promise<Either<QueryError | DatabaseError, TResult[]>> {
     if (!this.pool) {
-      this.logger.error(
-        '[DB]: Query error - no open pool. Make sure you are connected to the database before trying to run `query`'
+      return Either.left(
+        new DatabaseError(
+          'The connection pool is not open. Make sure you are connected to the database before trying to running the query'
+        )
       )
-      return Option.of<TResult[]>(null)
     }
 
-    const result = await this.pool.query<TResult>(query, params)
-
-    return Option.of(result.rows)
+    try {
+      const result = await this.pool.query<TResult>(query, params)
+      return Either.right(result.rows)
+    } catch (error) {
+      return Either.left(new QueryError(error))
+    }
   }
 }

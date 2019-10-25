@@ -7,6 +7,8 @@ export abstract class Either<E, A> {
     return new Right<E, A>(value)
   }
 
+  public abstract isLeft(): this is Left<E, A>
+  public abstract isRight(): this is Right<E, A>
   public abstract getOrElse(handleError: (error: E) => A): A
   public abstract map<T>(transform: (val: A) => T): Either<E, T>
 }
@@ -14,6 +16,14 @@ export abstract class Either<E, A> {
 export class Left<E, A> extends Either<E, A> {
   constructor(private readonly error: E) {
     super()
+  }
+
+  public isLeft(): this is Left<E, A> {
+    return true
+  }
+
+  public isRight(): this is Right<E, A> {
+    return false
   }
 
   public getOrElse(handleError: (error: E) => A) {
@@ -28,6 +38,14 @@ export class Left<E, A> extends Either<E, A> {
 export class Right<E, A> extends Either<E, A> {
   constructor(private readonly value: A) {
     super()
+  }
+
+  public isLeft(): this is Left<E, A> {
+    return false
+  }
+
+  public isRight(): this is Right<E, A> {
+    return true
   }
 
   public getOrElse(_handleError: (error: E) => A) {
