@@ -29,6 +29,7 @@
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.9",
     "nodemon": "^1.19.4",
     "postgrator": "^3.10.2",
     "prettier": "^1.18.2",
@@ -37,5 +38,10 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "pg": "^7.12.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint && npm run style:test"
+    }
   }
 }
