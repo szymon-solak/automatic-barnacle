@@ -9,9 +9,9 @@ export const match = <
   TOptions extends { type: string | number },
   TResult = void
 >(
-    option: TOptions,
-    pattern: Pattern<TOptions, TResult>
-  ): TResult => {
+  option: TOptions,
+  pattern: Pattern<TOptions, TResult>
+): TResult => {
   // @ts-ignore - https://github.com/microsoft/TypeScript/issues/13573
   return pattern[option.type](option)
 }
