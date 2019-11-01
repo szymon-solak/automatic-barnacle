@@ -18,9 +18,13 @@ export const run = async () => {
     typeDefs,
     resolvers,
     context: () => {
-      return {
-        userRepository,
+      const dependencies = {
+        repositories: {
+          userRepository,
+        },
       }
+
+      return dependencies
     },
   })
 

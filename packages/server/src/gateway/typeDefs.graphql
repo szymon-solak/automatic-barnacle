@@ -1,3 +1,6 @@
+#import './user/user.graphql'
+
 type Query {
-  test: String
+  test: String!
+  currentUser: User
 }
