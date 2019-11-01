@@ -11,6 +11,7 @@ module.exports = {
     '@babel/typescript'
   ],
   'plugins': [
-    '@babel/proposal-class-properties'
+    '@babel/proposal-class-properties',
+    'import-graphql'
   ]
 }

@@ -4,7 +4,7 @@ import { Option } from '../../types/option'
 
 export type UserId = boundType<Id, 'UserId'>
 
-export interface User extends Entity {
+export interface User extends Entity<UserId> {
   displayName: string
   photoUrl: Option<string>
 }
