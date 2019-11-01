@@ -1,0 +1,9 @@
+BEGIN;
+
+  TRUNCATE score;
+  
+  DROP TABLE IF EXISTS score;
+  DROP TABLE IF EXISTS note;
+  DROP TABLE IF EXISTS track;
+
+END;

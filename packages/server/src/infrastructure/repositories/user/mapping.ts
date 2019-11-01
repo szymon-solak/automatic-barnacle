@@ -1,11 +1,13 @@
 import { Id } from '../../../domain/entity'
 import { UserId, User } from '../../../domain/user/model'
+import { String255 } from '../../../domain/types'
 import { Option } from '../../../types/option'
 
 export interface UserRow {
   user_id: Id
-  display_name: string
-  photo_url?: string
+  display_name: String255
+  photo_url?: String255
+  onboarded: boolean
 }
 
 const mapToUserId = (id: Id): UserId => {
@@ -17,6 +19,7 @@ export const mapUserRowToModel = (row: Option<UserRow>): Option<User> =>
     id: mapToUserId(user.user_id),
     displayName: user.display_name,
     photoUrl: Option.of(user.photo_url),
+    onboarded: user.onboarded,
   }))
 
 export const mapUserModelToRow = (model: Option<User>): Option<UserRow> =>
@@ -24,4 +27,5 @@ export const mapUserModelToRow = (model: Option<User>): Option<UserRow> =>
     user_id: user.id,
     display_name: user.displayName,
     photo_url: user.photoUrl.getOrElse(undefined),
+    onboarded: user.onboarded,
   }))
