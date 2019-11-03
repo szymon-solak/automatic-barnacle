@@ -1,14 +1,22 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer, AuthenticationError } from 'apollo-server'
 
 import { ConsoleLogger } from './infrastructure/logger'
 import { PoolDatabaseConnection } from './infrastructure/db'
+import { UserRepository } from './infrastructure/repositories'
+import {
+  GoogleAuthenticator,
+  createRequestValidator,
+} from './infrastructure/auth'
 
 import { typeDefs, resolvers } from './gateway'
-import { UserRepository } from './infrastructure/repositories'
+
+import { config } from './config'
 
 export const run = async () => {
   const logger = new ConsoleLogger()
   const db = new PoolDatabaseConnection(logger)
+  const googleAuth = new GoogleAuthenticator(config.auth.google.clientId)
+  const validateRequest = createRequestValidator(googleAuth)
 
   db.connect()
 
@@ -17,14 +25,21 @@ export const run = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: () => {
-      const dependencies = {
-        repositories: {
-          userRepository,
-        },
-      }
+    context: async ({ req }) => {
+      try {
+        const { userId } = await validateRequest(req)
 
-      return dependencies
+        const dependencies = {
+          currentUserId: userId,
+          repositories: {
+            userRepository,
+          },
+        }
+
+        return dependencies
+      } catch (error) {
+        throw new AuthenticationError(error)
+      }
     },
   })
 

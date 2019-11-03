@@ -1,5 +1,5 @@
 type User {
   displayName: String!
   photoUrl: String
-  onboarded: Boolean
+  onboarded: Boolean!
 }
